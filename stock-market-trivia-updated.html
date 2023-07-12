@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Stock Market Trivia</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Welcome to Stock Market Trivia!</h1>
+        <p>Test your mettle...</p>
+
+        <div id="questionContainer">
+            <!-- JavaScript will insert questions here -->
+        </div>
+
+        <button id="nextButton">Next Question</button>
+        <div id="result"></div>
+        
+        <script>
+            const questions = [
+                {
+                    question: "What is a bull market?",
+                    choices: ["A market with declining stock prices", "A market with increasing stock prices", "A market with stable stock prices", "None of the above"],
+                    correctAnswer: "A market with increasing stock prices"
+                },
+                // Add more questions as needed...
+            ];
+
+            let currentQuestionIndex = 0;
+
+            function showQuestion() {
+                const questionElement = document.getElementById('questionContainer');
+                const question = questions[currentQuestionIndex];
+
+                questionElement.innerHTML = '';
+                questionElement.innerHTML = '<h2>' + question.question + '</h2>';
+
+                question.choices.forEach((choice, index) => {
+                    questionElement.innerHTML += '<input type="radio" name="choice" id="choice' + index + '" value="' + choice + '"><label for="choice' + index + '">' + choice + '</label><br>';
+                });
+            }
+
+            document.getElementById('nextButton').addEventListener('click', function() {
+                const selectedChoiceElement = document.querySelector('input[name="choice"]:checked');
+                if (!selectedChoiceElement) {
+                    alert('Please select an answer before continuing!');
+                    return;
+                }
+                const selectedChoice = selectedChoiceElement.value;
+                if (selectedChoice === questions[currentQuestionIndex].correctAnswer) {
+                    document.getElementById('result').textContent = 'Correct!';
+                } else {
+                    document.getElementById('result').textContent = 'Incorrect. The correct answer was: ' + questions[currentQuestionIndex].correctAnswer;
+                }
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    showQuestion();
+                } else {
+                    document.getElementById('nextButton').disabled = true;
+                    document.getElementById('result').textContent += ' End of quiz. Thanks for playing!';
+                }
+            });
+
+            showQuestion();
+        </script>
+    </body>
+</html>
